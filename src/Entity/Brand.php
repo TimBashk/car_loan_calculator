@@ -18,19 +18,6 @@ class Brand
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'brand', targetEntity: BrandModel::class)]
-    private Collection $brandModels;
-
-    public function __construct()
-    {
-        $this->brandModels = new ArrayCollection();
-    }
-
-    public function getBrandModels(): Collection
-    {
-        return $this->brandModels;
-    }
-
     public function getId(): ?int
     {
         return $this->id;
