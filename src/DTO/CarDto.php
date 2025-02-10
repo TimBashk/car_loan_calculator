@@ -8,6 +8,7 @@ class CarDto
     private BrandModelDto $brandModelDto;
     private int $price;
     private string $photoLink;
+    private string $color;
 
     public function __construct(int $id, BrandModelDto $brandModelDto, int $price, string $photoLink)
     {
@@ -61,4 +62,14 @@ class CarDto
         return $this;
     }
 
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
+        return $this;
+    }
+
+    public function getColor(): string
+    {
+        return $this->color;
+    }
 }

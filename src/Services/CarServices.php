@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTO\BrandDto;
 use App\DTO\BrandModelDto;
 use App\DTO\CarDto;
 use App\DTO\CarDtoResponse;
@@ -23,28 +24,33 @@ class CarServices
         ));
     }
 
-    public function getCarById(int $id): CarDtoResponse
+    public function getCarById(int $id): CarDto
     {
         if (null == $id) {
             throw new CarNotFoundException();
         }
 
-        return new CarDtoResponse(array_map(
+        $carDto = (new CarDtoResponse(array_map(
             [$this, 'mapCarToDTO'],
             $this->carRepository->getcarById($id)
-            ));
+        )))->getFirst();
+
+        //$carDto->setColor('red');
+
+        return $carDto;
     }
 
     private function mapCarToDTO(Car $car): CarDto
     {
-        return new CarDto(
+        return (new CarDto(
             $car->getId(),
             new BrandModelDto(
                 $car->getBrandModel()->getId(),
-                $car->getBrandModel()->getBrand()->getName() . ' ' . $car->getBrandModel()->getName(),
+                new BrandDto($car->getBrandModel()->getBrand()->getId(), $car->getBrandModel()->getBrand()->getName()),
+                $car->getBrandModel()->getName()
             ),
             $car->getPrice(),
             $car->getPhotoLink(),
-        );
+        ))->setColor('red');
     }
 }

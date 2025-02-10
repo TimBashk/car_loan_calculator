@@ -2,18 +2,14 @@
 
 namespace App\DTO;
 
-use App\Entity\Brand;
-
-class BrandModelDto
+class BrandDto
 {
     private int $id;
     private string $name;
-    private BrandDto $brandDto;
 
-    public function __construct(int $id, BrandDto $brandDto, string $name)
+    public function __construct(int $id, string $name)
     {
         $this->id = $id;
-        $this->brandDto = $brandDto;
         $this->name = $name;
     }
 
@@ -37,10 +33,5 @@ class BrandModelDto
     {
         $this->name = $name;
         return $this;
-    }
-
-    public function getBrand(): BrandDto
-    {
-        return $this->brandDto;
     }
 }

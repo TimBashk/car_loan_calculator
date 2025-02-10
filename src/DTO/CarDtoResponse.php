@@ -5,6 +5,7 @@ namespace App\DTO;
 class CarDtoResponse
 {
     private array $items;
+    private string $color;
 
     /**
      * @param CarDto[] $items
@@ -20,5 +21,10 @@ class CarDtoResponse
     public function getItems(): array
     {
         return $this->items;
+    }
+
+    public function getFirst(): CarDto
+    {
+        return $this->items[0];
     }
 }
