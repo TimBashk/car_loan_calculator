@@ -17,21 +17,10 @@ class CarServices
 
     public function getCars(): CarDtoResponse
     {
-        $cars = $this->carRepository->findAll();
-
-        $items = array_map(
-            fn(Car $car) => new CarDto(
-                $car->getId(), new BrandModelDto(
-                    $car->getBrandModel()->getId(),
-                    $car->getBrandModel()->getBrand()->getName() . ' ' . $car->getBrandModel()->getName(),
-                ),
-                $car->getPrice(),
-                $car->getPhotoLink()
-            ),
-            $cars
-        );
-
-        return new CarDtoResponse($items);
+        return new CarDtoResponse(array_map(
+            [$this, 'mapCarToDTO'],
+            $this->carRepository->findAll()
+        ));
     }
 
     public function getCarById(int $id): CarDtoResponse
@@ -40,20 +29,22 @@ class CarServices
             throw new CarNotFoundException();
         }
 
-        $car = $this->carRepository->getcarById($id);
+        return new CarDtoResponse(array_map(
+            [$this, 'mapCarToDTO'],
+            $this->carRepository->getcarById($id)
+            ));
+    }
 
-        $item = array_map(
-            fn(Car $car) => new CarDto(
-                $car->getId(), new BrandModelDto(
+    private function mapCarToDTO(Car $car): CarDto
+    {
+        return new CarDto(
+            $car->getId(),
+            new BrandModelDto(
                 $car->getBrandModel()->getId(),
                 $car->getBrandModel()->getBrand()->getName() . ' ' . $car->getBrandModel()->getName(),
             ),
-                $car->getPrice(),
-                $car->getPhotoLink()
-            ),
-            $car
+            $car->getPrice(),
+            $car->getPhotoLink(),
         );
-
-        return new CarDtoResponse($item);
     }
 }

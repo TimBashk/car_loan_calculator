@@ -19,7 +19,7 @@ class Car
     #[ORM\Column]
     private ?int $price = null;
 
-    #[ORM\ManyToOne(targetEntity: BrandModel::class, inversedBy: 'cars')]
+    #[ORM\ManyToOne(targetEntity: BrandModel::class)]
     private BrandModel $brandModel;
 
     public function getId(): ?int

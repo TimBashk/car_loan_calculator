@@ -2,8 +2,6 @@
 
 namespace App\DTO;
 
-use App\Entity\Brand;
-
 class BrandModelDto
 {
     private int $id;

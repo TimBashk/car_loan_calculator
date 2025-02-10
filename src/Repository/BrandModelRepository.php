@@ -3,17 +3,16 @@
 namespace App\Repository;
 
 use App\Entity\BrandModel;
-use App\Entity\Car;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Car>
+ * @extends ServiceEntityRepository<BrandModel>
  *
- * @method Car|null find($id, $lockMode = null, $lockVersion = null)
- * @method Car|null findOneBy(array $criteria, array $orderBy = null)
- * @method Car[]    findAll()
- * @method Car[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method BrandModel|null find($id, $lockMode = null, $lockVersion = null)
+ * @method BrandModel|null findOneBy(array $criteria, array $orderBy = null)
+ * @method BrandModel[]    findAll()
+ * @method BrandModel[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class BrandModelRepository extends ServiceEntityRepository
 {

@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\BrandModelRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BrandModelRepository::class)]
@@ -15,7 +13,7 @@ class BrandModel
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Brand::class, inversedBy: 'brandModels')]
+    #[ORM\ManyToOne(targetEntity: Brand::class)]
     private Brand $brand;
 
     #[ORM\Column(length: 255)]

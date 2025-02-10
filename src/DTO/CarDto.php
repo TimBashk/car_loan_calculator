@@ -2,9 +2,6 @@
 
 namespace App\DTO;
 
-use App\Entity\Brand;
-use App\Entity\BrandModel;
-
 class CarDto
 {
     private int $id;
