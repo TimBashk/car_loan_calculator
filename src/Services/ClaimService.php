@@ -34,6 +34,7 @@ class ClaimService
 
         $claim = new Claim();
         $claim->setCar($car)
+            ->setPaymentProgram($program)
             ->setInitialPayment($initialPayment)
             ->setLoanTerm($loanTerm);
 
