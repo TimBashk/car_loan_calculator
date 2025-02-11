@@ -25,9 +25,6 @@ class Claim
     #[ORM\Column]
     private ?int $loanTerm = null;
 
-    #[ORM\Column]
-    private ?int $monthlyPayment = null;
-
     public function getId(): ?int
     {
         return $this->id;
