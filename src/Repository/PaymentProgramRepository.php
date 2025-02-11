@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\Car;
 use App\Entity\PaymentProgram;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,25 +19,5 @@ class PaymentProgramRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, PaymentProgram::class);
-    }
-
-    /**
-     * @param int $id
-     * @return PaymentProgram[]
-     */
-    public function getProgramById(int $id): array
-    {
-        $query = $this->_em->createQuery('SELECT program FROM App\Entity\PaymentProgram program WHERE program.id = :id');
-        $query->setParameter('id', $id);
-
-        return $query->getResult();
-    }
-
-    public function findByAlias(string $alias): array
-    {
-        $query = $this->_em->createQuery('SELECT program FROM App\Entity\PaymentProgram program WHERE program.alias = :alias');
-        $query->setParameter('alias', $alias);
-
-        return $query->getResult();
     }
 }

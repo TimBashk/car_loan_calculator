@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\BrandRepository;
+use App\Repository\PaymentProgramRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: BrandRepository::class)]
+#[ORM\Entity(repositoryClass: PaymentProgramRepository::class)]
 class PaymentProgram
 {
     #[ORM\Id]

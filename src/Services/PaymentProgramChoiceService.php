@@ -3,8 +3,6 @@
 namespace App\Services;
 
 use App\DTO\PaymentProgramDto;
-use App\DTO\PaymentProgramResponseDto;
-use App\Entity\PaymentProgram;
 use App\Repository\PaymentProgramRepository;
 
 class PaymentProgramChoiceService
@@ -20,6 +18,7 @@ class PaymentProgramChoiceService
     private const LESS_300_MORE_3 = 'less_300_more_3';
     private const LESS_500_MORE_3 = 'less_500_more_3';
     private const LESS_1000_MORE_3 = 'less_1000_more_3';
+    private const MONTH_COUNT = 12;
 
     public function __construct(
         private PaymentProgramRepository $programRepository
@@ -30,27 +29,24 @@ class PaymentProgramChoiceService
     public function getProgramByParams(int $price, int $initialPayment, int $loanTerm): PaymentProgramDto
     {
         $alias = $this->getAlias($initialPayment, $loanTerm);
-        $program = $this->programRepository->findByAlias($alias);
+        $program = $this->programRepository->findOneBy(['alias' => $alias], []);
 
-        $item = array_map(
-            fn(PaymentProgram $payProgram) => new PaymentProgramDto(
-                $payProgram->getId(),
-                $payProgram->getInterestRate(),
-                $payProgram->getTitle()
-            ),
-            $program
+        $paymentProgram = new PaymentProgramDto(
+            $program->getId(),
+            $program->getInterestRate(),
+            $program->getTitle()
         );
 
-        $paymentProgram = (new PaymentProgramResponseDto($item))->getFirst();
         $monthlyPayment = $this->calculateMonthlyPayment($price, $loanTerm, $paymentProgram->getInterestRate());
         $paymentProgram->setMonthlyPayment($monthlyPayment);
 
-        return new $paymentProgram;
+        return $paymentProgram;
     }
 
     private function calculateMonthlyPayment(int $price, int $loanTerm, float $interestRate): int
     {
-        $sum = $price * (0.01 * $interestRate + 0.01 * $interestRate / (pow(1 + 0.01 * $interestRate, $loanTerm) - 1));
+        $percent = $interestRate / self::MONTH_COUNT;
+        $sum = $price * (0.01 * $percent + 0.01 * $percent / (pow(1 + 0.01 * $percent, $loanTerm) - 1));
 
         return round($sum, 2, 2);
     }

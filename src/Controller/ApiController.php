@@ -33,8 +33,7 @@ class ApiController extends AbstractController
                     'name' => $car->getBrandModel()->getName(),
                 ],
                 'photo' => $car->getPhotoLink(),
-                'price' => $car->getPrice(),
-                'color' => $car->getColor()
+                'price' => $car->getPrice()
             ];
         }
 
@@ -57,8 +56,7 @@ class ApiController extends AbstractController
                 'name' => $car->getBrandModel()->getName(),
             ],
             'photo' => $car->getPhotoLink(),
-            'price' => $car->getPrice(),
-            'color' => $car->getColor()
+            'price' => $car->getPrice()
         ]);
     }
 
@@ -68,15 +66,15 @@ class ApiController extends AbstractController
         $request = Request::createFromGlobals();
         $errors = [];
 
-        if (!$request->request->has('price')) {
+        if (!$request->query->has('price')) {
             $errors[] = 'Price is required';
         }
 
-        if (!$request->request->has('loan_term')) {
+        if (!$request->query->has('loan_term')) {
             $errors[] = 'Loan term is required';
         }
 
-        if (!$request->request->has('initial_payment')) {
+        if (!$request->query->has('initial_payment')) {
             $errors[] = 'Initial payment is required';
         }
 

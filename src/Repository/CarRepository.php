@@ -20,16 +20,4 @@ class CarRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Car::class);
     }
-
-    /**
-     * @param int $id
-     * @return Car[]
-     */
-    public function getCarById(int $id): array
-    {
-        $query = $this->_em->createQuery('SELECT car FROM App\Entity\Car car WHERE car.id = :id');
-        $query->setParameter('id', $id);
-
-        return $query->getResult();
-    }
 }

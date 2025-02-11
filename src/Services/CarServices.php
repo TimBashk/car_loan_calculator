@@ -30,17 +30,14 @@ class CarServices
             throw new CarNotFoundException();
         }
 
-        $carDto = (new CarDtoResponse(array_map(
-            [$this, 'mapCarToDTO'],
-            $this->carRepository->getcarById($id)
-        )))->getFirst();
+        $car = $this->carRepository->find($id);
 
-        return $carDto;
+        return $this->mapCarToDTO($car);
     }
 
     private function mapCarToDTO(Car $car): CarDto
     {
-        return (new CarDto(
+        return new CarDto(
             $car->getId(),
             new BrandModelDto(
                 $car->getBrandModel()->getId(),
@@ -49,6 +46,6 @@ class CarServices
             ),
             $car->getPrice(),
             $car->getPhotoLink(),
-        ))->setColor('red');
+        );
     }
 }
