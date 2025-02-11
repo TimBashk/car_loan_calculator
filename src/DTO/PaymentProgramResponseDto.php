@@ -5,8 +5,10 @@ namespace App\DTO;
 class PaymentProgramResponseDto
 {
     private array $items;
-    private int $monthlyPayment;
 
+    /**
+     * @param PaymentProgramDto[] $items
+     */
     public function __construct(array $items)
     {
         $this->items = $items;
@@ -17,9 +19,8 @@ class PaymentProgramResponseDto
         return $this->items;
     }
 
-    public function setMonthlyPayment(int $monthlyPayment): self
+    public function getFirst(): PaymentProgramDto
     {
-        $this->monthlyPayment = $monthlyPayment;
-        return $this;
+        return $this->items[0];
     }
 }

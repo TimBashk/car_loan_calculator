@@ -27,7 +27,7 @@ class PaymentProgramChoiceService
     {
     }
 
-    public function getProgram(int $price, int $initialPayment, int $loanTerm): PaymentProgramResponseDto
+    public function getProgramByParams(int $price, int $initialPayment, int $loanTerm): PaymentProgramDto
     {
         $alias = $this->getAlias($initialPayment, $loanTerm);
         $program = $this->programRepository->findByAlias($alias);
@@ -41,15 +41,11 @@ class PaymentProgramChoiceService
             $program
         );
 
-        /**
-         * todo
-         */
-        $interestRate =
-        $paymentProgramResp = new PaymentProgramResponseDto($item);
-        $monthlyPayment = $this->calculateMonthlyPayment($price, $loanTerm, $interestRate);
-        $paymentProgramResp->setMonthlyPayment($monthlyPayment);
+        $paymentProgram = (new PaymentProgramResponseDto($item))->getFirst();
+        $monthlyPayment = $this->calculateMonthlyPayment($price, $loanTerm, $paymentProgram->getInterestRate());
+        $paymentProgram->setMonthlyPayment($monthlyPayment);
 
-        return new PaymentProgramResponseDto($item);
+        return new $paymentProgram;
     }
 
     private function calculateMonthlyPayment(int $price, int $loanTerm, float $interestRate): int

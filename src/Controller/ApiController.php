@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Services\CarServices;
 use App\Services\PaymentProgramChoiceService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -61,27 +62,39 @@ class ApiController extends AbstractController
         ]);
     }
 
-    // test
-    #[Route(path: '/payment/{id}', methods: ['GET'])]
-    public function getPayment(int $id): Response
-    {
-        $payment = $this->programChoiceService->getProgramById($id);
-        return $this->json($payment);
-    }
-
     #[Route(path: '/credit/calculate', methods: ['GET'])]
     public function creditCalculate(): Response
     {
-        $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
+        $request = Request::createFromGlobals();
+        $errors = [];
+
+        if (!$request->request->has('price')) {
+            $errors[] = 'Price is required';
+        }
+
+        if (!$request->request->has('loan_term')) {
+            $errors[] = 'Loan term is required';
+        }
+
+        if (!$request->request->has('initial_payment')) {
+            $errors[] = 'Initial payment is required';
+        }
+
+        if (count($errors) > 0) {
+            return $this->json($errors);
+        }
 
         $price = $request->query->get('price', 0);
         $initialPayment = $request->query->get('initial_payment', 0);
         $loanTerm = $request->query->get('loan_term', 0);
 
+        $paymentProgram = $this->programChoiceService->getProgramByParams($price, $initialPayment, $loanTerm);
+
         return $this->json([
-            'price' => $price,
-            'initialPayment' => $initialPayment,
-            'loanTerm' => $loanTerm
+            'id' => $paymentProgram->getId(),
+            'interestRate' => $paymentProgram->getInterestRate(),
+            'monthlyPayment' => $paymentProgram->getMonthlyPayment(),
+            'title' => $paymentProgram->getTitle()
         ]);
     }
 }

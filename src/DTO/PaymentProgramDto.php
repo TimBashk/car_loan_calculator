@@ -7,6 +7,7 @@ class PaymentProgramDto
     private int $id;
     private float $interestRate;
     private string $title;
+    private int $monthlyPayment;
 
     public function __construct(int $id, float $interestRate, string $title)
     {
@@ -44,4 +45,14 @@ class PaymentProgramDto
         return $this;
     }
 
+    public function setMonthlyPayment(int $monthlyPayment): self
+    {
+        $this->monthlyPayment = $monthlyPayment;
+        return $this;
+    }
+
+    public function getMonthlyPayment(): int
+    {
+        return $this->monthlyPayment;
+    }
 }

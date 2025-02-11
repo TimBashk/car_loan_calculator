@@ -35,8 +35,6 @@ class CarServices
             $this->carRepository->getcarById($id)
         )))->getFirst();
 
-        //$carDto->setColor('red');
-
         return $carDto;
     }
 
