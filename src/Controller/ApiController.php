@@ -127,10 +127,11 @@ class ApiController extends AbstractController
             return $this->json($errors);
         }
 
-        $carId = $request->query->get('car_id', 1);
-        $programId = $request->query->get('program_id', 1);
-        $initialPayment = $request->query->get('initial_payment', 250000);
-        $loanTerm = $request->query->get('loan_term', 60);
+        // сумма кредита берется относительно стоимости автомобиля
+        $carId = $request->query->get('car_id');
+        $programId = $request->query->get('program_id');
+        $initialPayment = $request->query->get('initial_payment');
+        $loanTerm = $request->query->get('loan_term');
 
         $saveResult = $this->claimService->saveClaim($carId, $programId, $initialPayment, $loanTerm);
 
