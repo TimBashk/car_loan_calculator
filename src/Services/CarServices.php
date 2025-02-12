@@ -31,6 +31,9 @@ class CarServices
         }
 
         $car = $this->carRepository->find($id);
+        if (!$car) {
+            throw new CarNotFoundException();
+        }
 
         return $this->mapCarToDTO($car);
     }

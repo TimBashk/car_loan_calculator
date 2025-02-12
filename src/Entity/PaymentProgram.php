@@ -58,7 +58,7 @@ class PaymentProgram
 
     public function setAlias(string $alias): static
     {
-        $this->title = $alias;
+        $this->alias = $alias;
 
         return $this;
     }
