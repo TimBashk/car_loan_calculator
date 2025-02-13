@@ -2,24 +2,28 @@
 
 namespace App\DTO;
 
-class PaymentProgramResponseDto
+class CarDtoItems
 {
     private array $items;
+    private string $color;
 
     /**
-     * @param PaymentProgramDto[] $items
+     * @param CarDto[] $items
      */
     public function __construct(array $items)
     {
         $this->items = $items;
     }
 
+    /**
+     * @return CarDto[]
+     */
     public function getItems(): array
     {
         return $this->items;
     }
 
-    public function getFirst(): PaymentProgramDto
+    public function getFirst(): CarDto
     {
         return $this->items[0];
     }

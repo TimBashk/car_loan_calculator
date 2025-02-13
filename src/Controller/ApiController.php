@@ -84,14 +84,18 @@ class ApiController extends AbstractController
         }
 
         if (count($errors) > 0) {
-            return $this->json($errors);
+            return $this->json(['errors' => $errors]);
         }
 
         $price = $request->query->get('price');
         $initialPayment = $request->query->get('initial_payment');
         $loanTerm = $request->query->get('loan_term');
 
-        $paymentProgram = $this->programChoiceService->getProgramByParams($price, $initialPayment, $loanTerm);
+        if ($price - $loanTerm < 0)  {
+            return $this->json(['errors' => 'Сумма взноса должна быть меньше или равна цене автомобиля']);
+        }
+
+        $paymentProgram = $this->programChoiceService->getProgram($price, $initialPayment, $loanTerm);
 
         return $this->json([
             'id' => $paymentProgram->getId(),

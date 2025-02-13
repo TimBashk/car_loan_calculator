@@ -19,6 +19,7 @@ class PaymentProgramChoiceService
     private const LESS_500_MORE_3 = 'less_500_more_3';
     private const LESS_1000_MORE_3 = 'less_1000_more_3';
     private const MONTH_COUNT = 12;
+    private const PERCENT = 0.01;
 
     public function __construct(
         private PaymentProgramRepository $programRepository
@@ -26,7 +27,7 @@ class PaymentProgramChoiceService
     {
     }
 
-    public function getProgramByParams(int $price, int $initialPayment, int $loanTerm): PaymentProgramDto
+    public function getProgram(int $price, int $initialPayment, int $loanTerm): PaymentProgramDto
     {
         $alias = $this->getAlias($initialPayment, $loanTerm);
         $program = $this->programRepository->findOneBy(['alias' => $alias], []);
@@ -46,7 +47,8 @@ class PaymentProgramChoiceService
     private function calculateMonthlyPayment(int $price, int $loanTerm, float $interestRate): int
     {
         $percent = $interestRate / self::MONTH_COUNT;
-        $sum = $price * (0.01 * $percent + 0.01 * $percent / (pow(1 + 0.01 * $percent, $loanTerm) - 1));
+        $onePercent = self::PERCENT;
+        $sum = $price * ($onePercent * $percent + $onePercent * $percent / (pow(1 + $onePercent * $percent, $loanTerm) - 1));
 
         return round($sum, 2, 2);
     }

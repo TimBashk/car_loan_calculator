@@ -5,7 +5,7 @@ namespace App\Services;
 use App\DTO\BrandDto;
 use App\DTO\BrandModelDto;
 use App\DTO\CarDto;
-use App\DTO\CarDtoResponse;
+use App\DTO\CarDtoItems;
 use App\Entity\Car;
 use App\Exception\CarNotFoundException;
 use App\Repository\CarRepository;
@@ -16,9 +16,9 @@ class CarServices
     {
     }
 
-    public function getCars(): CarDtoResponse
+    public function getCars(): CarDtoItems
     {
-        return new CarDtoResponse(array_map(
+        return new CarDtoItems(array_map(
             [$this, 'mapCarToDTO'],
             $this->carRepository->findAll()
         ));
